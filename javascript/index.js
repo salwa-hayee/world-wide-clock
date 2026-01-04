@@ -35,11 +35,16 @@ function cityTimeUpdate() {
 
 function cityUpdate(event) {
   let cityTimeZone = event.target.value;
+
   let cityTime = moment.tz(cityTimeZone);
   let citiesElement = document.querySelector("#cities");
   let cityName = cityTimeZone.replace("_", " ").split("/")[1];
   if (cityTimeZone.length > 0) {
-    citiesElement.innerHTML = citiesElement = `
+    if (cityTimeZone === "current") {
+      cityTimeZone = moment.tz.guess();
+      console.log(cityTimeZone);
+      let cityName = cityTimeZone.replace("_", " ").split("/")[1];
+      citiesElement.innerHTML = citiesElement = `
   <div class="city">
         <div>
           <h2>${cityName}</h2>
@@ -50,6 +55,20 @@ function cityUpdate(event) {
         )}</div>
       </div>
   `;
+    } else {
+      let cityName = cityTimeZone.replace("_", " ").split("/")[1];
+      citiesElement.innerHTML = citiesElement = `
+  <div class="city">
+        <div>
+          <h2>${cityName}</h2>
+          <div class="date">${cityTime.format("MMMM Do, YYYY")}</div>
+        </div>
+        <div class="time">${cityTime.format(
+          "hh:mm:ss [<small>]A[</small>]"
+        )}</div>
+      </div>
+  `;
+    }
   }
 }
 
@@ -58,5 +77,3 @@ setInterval(cityTimeUpdate, 1000);
 
 let cityDropdownElement = document.querySelector("#city");
 cityDropdownElement.addEventListener("change", cityUpdate);
-
-setInterval(cityUpdate, 1000);
