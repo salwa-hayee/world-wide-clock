@@ -54,6 +54,7 @@ function cityUpdate(event) {
           "hh:mm:ss [<small>]A[</small>]"
         )}</div>
       </div>
+      <a href="/">All cities</a>
   `;
     } else {
       let cityName = cityTimeZone.replace("_", " ").split("/")[1];
@@ -67,6 +68,7 @@ function cityUpdate(event) {
           "hh:mm:ss [<small>]A[</small>]"
         )}</div>
       </div>
+      <a href="/">All cities</a>
   `;
     }
   }
