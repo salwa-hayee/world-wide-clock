@@ -1,12 +1,8 @@
-setInterval(function () {
+function cityTimeUpdate() {
   let losangelesUpdate = document.querySelector("#los-angeles");
-  console.log(losangelesUpdate);
-
   let losangelesDateUpdate = document.querySelector("#los-angeles .date");
-  console.log(losangelesDateUpdate);
-
   let losangelesTimeUpdate = document.querySelector("#los-angeles .time");
-  console.log(losangelesTimeUpdate);
+
   let losangelesTimeZone = moment.tz("America/Los_Angeles");
 
   losangelesTimeUpdate.innerHTML = losangelesTimeZone.format(
@@ -15,17 +11,52 @@ setInterval(function () {
   losangelesDateUpdate.innerHTML = losangelesTimeZone.format("MMMM Do, YYYY");
 
   let sydneyUpdate = document.querySelector("#sydney");
-  console.log(sydneyUpdate);
-
   let sydneyDateUpdate = document.querySelector("#sydney .date");
-  console.log(sydneyDateUpdate);
-
   let sydneyTimeUpdate = document.querySelector("#sydney .time");
-  console.log(sydneyTimeUpdate);
   let sydneyTimeZone = moment.tz("Australia/Sydney");
-
   sydneyTimeUpdate.innerHTML = sydneyTimeZone.format(
     `hh:mm:ss [<small>]A[</small>]`
   );
   sydneyDateUpdate.innerHTML = sydneyTimeZone.format("MMMM Do, YYYY");
-}, 1000);
+
+  let kualaLumpurUpdate = document.querySelector("#kualaLumpur");
+  let kualaLumpurDateUpdate = document.querySelector("#kualaLumpur .date");
+  console.log(kualaLumpurDateUpdate);
+
+  let kualaLumpurTimeUpdate = document.querySelector("#kualaLumpur .time");
+  console.log(kualaLumpurTimeUpdate);
+  let kualaLumpurTimeZone = moment.tz("Asia/Kuala_Lumpur");
+
+  kualaLumpurTimeUpdate.innerHTML = kualaLumpurTimeZone.format(
+    `hh:mm:ss [<small>]A[</small>]`
+  );
+  kualaLumpurDateUpdate.innerHTML = kualaLumpurTimeZone.format("MMMM Do, YYYY");
+}
+
+function cityUpdate(event) {
+  let cityTimeZone = event.target.value;
+  let cityTime = moment.tz(cityTimeZone);
+  let citiesElement = document.querySelector("#cities");
+  let cityName = cityTimeZone.replace("_", " ").split("/")[1];
+  if (cityTimeZone.length > 0) {
+    citiesElement.innerHTML = citiesElement = `
+  <div class="city">
+        <div>
+          <h2>${cityName}</h2>
+          <div class="date">${cityTime.format("MMMM Do, YYYY")}</div>
+        </div>
+        <div class="time">${cityTime.format(
+          "hh:mm:ss [<small>]A[</small>]"
+        )}</div>
+      </div>
+  `;
+  }
+}
+
+cityTimeUpdate();
+setInterval(cityTimeUpdate, 1000);
+
+let cityDropdownElement = document.querySelector("#city");
+cityDropdownElement.addEventListener("change", cityUpdate);
+
+setInterval(cityUpdate, 1000);
